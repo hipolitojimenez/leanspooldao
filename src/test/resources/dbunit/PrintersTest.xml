@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset
+		xmlns="http://localhost/PrintersTest"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://localhost/PrintersTest PrintersTestSchema.xsd ">
+	<Printer PrinterName="Printer02" />
+	<Printer PrinterName="Printer01" />
+	<Printer PrinterName="Printer03" />
+</dataset>

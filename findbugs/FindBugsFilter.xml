@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:noNamespaceSchemaLocation="http://localhost/bugcollection">
+	<Match>
+		<Class name="com.nioos.leanspool.dao.BaseDao" />
+		<Method name="getSelectPreparedStatement"/>
+		<Bug pattern="SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING"/>
+	</Match>
+	<Match>
+		<Class name="com.nioos.leanspool.printjobs.PrintJobsDao" />
+		<Method name="getPrintJobs"/>
+		<Bug pattern="SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE"/>
+	</Match>
+</FindBugsFilter>

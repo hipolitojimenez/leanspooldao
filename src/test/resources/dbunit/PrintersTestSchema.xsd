@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost/PrintersTest" xmlns:tns="http://localhost/PrintersTest" elementFormDefault="qualified">
+    <element name="dataset" type="tns:datasetType"></element>
+    <complexType name="datasetType">
+    	<sequence>
+    		<element name="Printer" type="tns:printerType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    <complexType name="printerType">
+    	<attribute name="PrinterName" type="string"></attribute>
+    </complexType>
+</schema>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost/PrintJobsTest" xmlns:tns="http://localhost/PrintJobsTest" elementFormDefault="qualified">
+    <element name="dataset" type="tns:datasetType"></element>
+    <complexType name="datasetType">
+    	<sequence>
+    		<element name="PrintJob" type="tns:printJobType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    <complexType name="printJobType">
+    	<attribute name="JobId" type="string"></attribute>
+    	<attribute name="PrinterName" type="string"></attribute>
+    	<attribute name="JobStatus" type="string"></attribute>
+    </complexType>
+</schema>
