@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="
+		http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<preConditions>
+		<runningAs username="leanspooleruser"/>
+	</preConditions>
+	<changeSet id="000001" author="hipolitojimenez">
+		<createTable tableName="Printer">
+			<column name="PrinterName" type="nvarchar(250)">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_Printer" />
+			</column>
+		</createTable>
+		<createTable tableName="PrintJob">
+			<column name="JobId" type="nvarchar(250)">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_PrintJob" />
+			</column>
+			<column name="PrinterName" type="nvarchar(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="JobStatus" type="nvarchar(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="JobData" type="varbinary(MAX)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createIndex tableName="PrintJob" indexName="PrintJob_PrinterName">
+			<column name="PrinterName" />
+		</createIndex>
+		<createIndex tableName="PrintJob" indexName="PrintJob_JobStatus">
+			<column name="JobStatus" />
+		</createIndex>
+	</changeSet>
+</databaseChangeLog>

@@ -1,5 +1,7 @@
 package com.nioos.leanspool.printjobs;
 
+
+
 import com.nioos.leanspool.gwt.shared.PrintJobModel;
 
 
@@ -28,7 +30,13 @@ public class PrintJobModelImpl implements PrintJobModel {
 	/**
 	 * The job status.
 	 */
-	private String jobStatus;
+	private String jobStatus = PrintJobStatus.NEW.toString();
+	
+	
+	/**
+	 * The job data.
+	 */
+	private byte[] jobData;
 	
 	
 	/**
@@ -82,6 +90,24 @@ public class PrintJobModelImpl implements PrintJobModel {
 	 */
 	public final void setJobStatus(final String value) {
 		jobStatus = value;
+	}
+	
+	
+	/**
+	 * Gets the job data.
+	 * @return the job data.
+	 */
+	public final byte[] getJobData() {
+		return jobData; // NOPMD
+	}
+	
+	
+	/**
+	 * Sets the job data.
+	 * @param value the job data.
+	 */
+	public final void setJobData(final byte[] value) { // NOPMD
+		jobData = value;
 	}
 	
 	

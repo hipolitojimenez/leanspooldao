@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
@@ -26,9 +27,15 @@ import com.nioos.leanspool.gwt.shared.PrintJobModel;
 
 /**
  * Tests the print job DAO.
- * @author Hipolito Jiménez.
+ * @author Hipolito Jimenez.
  */
 public class PrintJobsDaoTest {
+	
+	
+	/**
+	 * New status.
+	 */
+	private static final String NEW = "New";
 	
 	
 	/**
@@ -159,7 +166,7 @@ public class PrintJobsDaoTest {
 		final SortAndPaginationParameters sapp =
 			new SortAndPaginationParameters(sortParameters, pagParameters);
 		final List<PrintJobModel> printJobList =
-			printJobsDao.getPrintJobsForStatus("New", sapp);
+			printJobsDao.getPrintJobsForStatus(NEW, sapp);
 		Assert.assertEquals("Invalid print jobs list size",
 			PrintJobModel.PAGESIZE, printJobList.size());
 		final PrintJobModel printJob = printJobList.get(0);
@@ -246,9 +253,46 @@ public class PrintJobsDaoTest {
 		//
 		final PrintJobsDao printJobsDao = new PrintJobsDao();
 		final int countOfResults =
-			printJobsDao.getNumberOfPrintJobsForStatus("New");
+			printJobsDao.getNumberOfPrintJobsForStatus(NEW);
 		Assert.assertEquals("Invalid count of print jobs",
 			NUMBEROFPRINTJOBSFORSTATUSNEW, countOfResults);
+	}
+	
+	
+	/**
+	 * Insert New Job Test.
+	 * @throws Exception on error.
+	 */
+	@Test
+	public final void testInsertNewJob()
+			throws Exception { // NOPMD
+		final PrintJobsDao printJobsDao = new PrintJobsDao();
+		final PrintJobModel printJobModel = new PrintJobModelImpl();
+		printJobModel.setPrinterName("testPrinter");
+		final byte[] buffer = "Test Data".getBytes("UTF-8"); // NOPMD
+		printJobModel.setJobData(buffer);
+		final String jobId = printJobsDao.insertNewJob(printJobModel);
+		//
+		final DataSource dataSource =
+			DataSourceUtils.buildDataSource(JDBC_PROPERTIES);
+		final IDatabaseConnection dbConnection =
+			new DatabaseDataSourceConnection(dataSource);
+		final String sql = "SELECT PrinterName, JobStatus, JobData FROM "
+			+ " PrintJob WHERE JobId = '" + jobId + "'";
+		final ITable queryResult =
+			dbConnection.createQueryTable("TEST_RESULT", sql);
+		final String printerName =
+			(String) queryResult.getValue(0, "PrinterName");
+		final String jobStatus = (String) queryResult.getValue(0, "JobStatus");
+		final byte[] data = (byte[]) queryResult.getValue(0, "JobData");
+		dbConnection.close();
+		//
+		Assert.assertEquals("Invalid jobId",
+			"f315202b28422ed5c2af4f843b8c2764", jobId);
+		Assert.assertEquals("Invalid printerName", "testPrinter", printerName);
+		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
+		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
+		Assert.assertArrayEquals("Invalid data", buffer, data);
 	}
 	
 	

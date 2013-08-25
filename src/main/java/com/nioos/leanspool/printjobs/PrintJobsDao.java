@@ -78,6 +78,14 @@ public class PrintJobsDao extends BaseDao {
 	
 	
 	/**
+	 * SQL statement to insert a new print job.
+	 */
+	private static final String INSERTNEWPRINTJOBSTMT =
+		"INSERT INTO PrintJob (JobId, PrinterName, JobStatus, JobData)"
+			+ " VALUES (?, ?, ?, ?)";
+	
+	
+	/**
 	 * Constructor.
 	 * @throws DaoException on error.
 	 */
@@ -270,7 +278,7 @@ public class PrintJobsDao extends BaseDao {
 			throws PrintJobsException, DaoException {
 		final Connection connection = getSelectConnection(); // NOPMD
 		final PreparedStatement preparedStatement =
-			getSelectPreparedStatement(connection,
+			getPreparedStatement(connection,
 				NUMBEROFPRINTJOBSFORSTATUSSTMT);
 		try {
 			preparedStatement.setString(1, status);
@@ -301,7 +309,7 @@ public class PrintJobsDao extends BaseDao {
 			throws PrintJobsException, DaoException {
 		final Connection connection = getSelectConnection(); // NOPMD
 		final PreparedStatement preparedStatement =
-			getSelectPreparedStatement(connection,
+			getPreparedStatement(connection,
 				NUMBEROFPRINTJOBSFORPRINTERSTMT);
 		try {
 			preparedStatement.setString(1, printer);
@@ -314,6 +322,36 @@ public class PrintJobsDao extends BaseDao {
 		} catch (SQLException sqle) {
 			LOG.error(CANNOT_GET_PRINT_JOBS, sqle);
 			throw new PrintJobsException(CANNOT_GET_PRINT_JOBS, sqle);
+		} finally {
+			silentCloseStatement(preparedStatement);
+			silentCloseConnection(connection);
+		}
+	}
+	
+	
+	/**
+	 * Inserts a new print job.
+	 * @param printJobModel the new print job.
+	 * @return the new job id key.
+	 * @throws DaoException on error.
+	 * @throws PrintJobsException on error.
+	 */
+	public final String insertNewJob(final PrintJobModel printJobModel)
+			throws DaoException, PrintJobsException {
+		final Connection connection = getInsertConnection(); // NOPMD
+		final PreparedStatement preparedStatement =
+				getPreparedStatement(connection, INSERTNEWPRINTJOBSTMT);
+		try {
+			final String jobId = getHashKey(printJobModel.getJobData());
+			preparedStatement.setString(1, jobId);
+			preparedStatement.setString(2, printJobModel.getPrinterName());
+			preparedStatement.setString(3, printJobModel.getJobStatus());
+			preparedStatement.setBytes(4, printJobModel.getJobData());
+			preparedStatement.executeUpdate();
+			return jobId;
+		} catch (SQLException sqle) {
+			LOG.error("Cannot insert new print job", sqle);
+			throw new PrintJobsException("Cannot insert new print job", sqle);
 		} finally {
 			silentCloseStatement(preparedStatement);
 			silentCloseConnection(connection);

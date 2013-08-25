@@ -10,6 +10,7 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -20,6 +21,13 @@ import org.apache.commons.logging.LogFactory;
  * @author Hipolito Jimenez.
  */
 public class BaseDao {
+	
+	
+	/**
+	 * Cannot get sql connection.
+	 */
+	private static final String CANNOT_GET_SQL_CONNECTION =
+		"Cannot get sql connection";
 	
 	
 	/**
@@ -77,7 +85,7 @@ public class BaseDao {
 	 * Silently close the jdbc connection.
 	 * @param connection the jdbc connection.
 	 */
-	public final void silentCloseConnection(final Connection connection) {
+	protected final void silentCloseConnection(final Connection connection) {
 		if (connection != null) {
 			try {
 				connection.close();
@@ -91,7 +99,7 @@ public class BaseDao {
 	 * Silently close the jdbc statement.
 	 * @param statement the jdbc statement.
 	 */
-	public final void silentCloseStatement(final Statement statement) {
+	protected final void silentCloseStatement(final Statement statement) {
 		if (statement != null) {
 			try {
 				statement.close();
@@ -108,7 +116,7 @@ public class BaseDao {
 	 * @return the jdbc statement.
 	 * @throws DaoException on error.
 	 */
-	public final Statement getSelectStatement(final Connection connection)
+	protected final Statement getSelectStatement(final Connection connection)
 			throws DaoException {
 		try {
 			final Statement statement = // NOPMD
@@ -129,7 +137,7 @@ public class BaseDao {
 	 * @return the jdbc statement.
 	 * @throws DaoException on error.
 	 */
-	public final Statement getSelectStatement(final Connection connection,
+	protected final Statement getSelectStatement(final Connection connection,
 				final int maxRows)
 			throws DaoException {
 		try {
@@ -149,30 +157,47 @@ public class BaseDao {
 	 * @return the jdbc connection.
 	 * @throws DaoException on error.
 	 */
-	public final Connection getSelectConnection() throws DaoException {
+	protected final Connection getSelectConnection() throws DaoException {
 		try {
 			final Connection connection = // NOPMD
 				dataSource.getConnection();
 			connection.setAutoCommit(false);
-			//
 			connection.setReadOnly(true);
-			//
 			return connection;
 		} catch (SQLException sqle) {
-			LOG.fatal("Cannot get sql connection", sqle);
-			throw new DaoException("Cannot get sql connection", sqle);
+			LOG.fatal(CANNOT_GET_SQL_CONNECTION, sqle);
+			throw new DaoException(CANNOT_GET_SQL_CONNECTION, sqle);
 		}
 	}
 	
 	
 	/**
-	 * Gets and prepare a select jdbc preparedstatement from a jdbc connection.
+	 * Gets and prepare an insert jdbc connection.
+	 * @return the jdbc connection.
+	 * @throws DaoException on error.
+	 */
+	protected final Connection getInsertConnection() throws DaoException {
+		try {
+			final Connection connection = // NOPMD
+				dataSource.getConnection();
+			connection.setAutoCommit(true);
+			connection.setReadOnly(false);
+			return connection;
+		} catch (SQLException sqle) {
+			LOG.fatal(CANNOT_GET_SQL_CONNECTION, sqle);
+			throw new DaoException(CANNOT_GET_SQL_CONNECTION, sqle);
+		}
+	}
+	
+	
+	/**
+	 * Gets and prepare a jdbc preparedstatement from a jdbc connection.
 	 * @param connection the jdbc connection.
 	 * @param sqlStatement the sql statement.
 	 * @return the jdbc prepared statement.
 	 * @throws DaoException on error.
 	 */
-	public final PreparedStatement getSelectPreparedStatement(
+	protected final PreparedStatement getPreparedStatement(
 				final Connection connection, final String sqlStatement)
 			throws DaoException {
 		try {
@@ -195,13 +220,13 @@ public class BaseDao {
 	 * @return the jdbc prepared statement.
 	 * @throws DaoException on error.
 	 */
-	public final PreparedStatement getSelectPreparedStatement(
+	protected final PreparedStatement getSelectPreparedStatement(
 				final Connection connection, final String sqlStatement,
 				final int maxRows)
 			throws DaoException {
 		try {
 			final PreparedStatement preparedStatement =
-				getSelectPreparedStatement(connection, sqlStatement);
+				getPreparedStatement(connection, sqlStatement);
 			preparedStatement.setFetchSize(maxRows);
 			preparedStatement.setMaxRows(maxRows);
 			return preparedStatement;
@@ -218,7 +243,7 @@ public class BaseDao {
 	 * @param offset the offset.
 	 * @throws SQLException on error.
 	 */
-	public final void setResultSetOffset(final ResultSet resultSet,
+	protected final void setResultSetOffset(final ResultSet resultSet,
 			final int offset) throws SQLException {
 		try {
 			resultSet.absolute(offset);
@@ -243,6 +268,16 @@ public class BaseDao {
 				break;
 			}
 		}
+	}
+	
+	
+	/**
+	 * Gets the md5 hash key for the given data.
+	 * @param data the data.
+	 * @return the md5 hash key.
+	 */
+	protected final String getHashKey(final byte[] data) {
+		return DigestUtils.md5Hex(data);
 	}
 	
 	

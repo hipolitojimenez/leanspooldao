@@ -4,12 +4,22 @@
 			xsi:noNamespaceSchemaLocation="http://localhost/bugcollection">
 	<Match>
 		<Class name="com.nioos.leanspool.dao.BaseDao" />
-		<Method name="getSelectPreparedStatement"/>
+		<Method name="getPreparedStatement"/>
 		<Bug pattern="SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING"/>
 	</Match>
 	<Match>
 		<Class name="com.nioos.leanspool.printjobs.PrintJobsDao" />
 		<Method name="getPrintJobs"/>
 		<Bug pattern="SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE"/>
+	</Match>
+	<Match>
+		<Class name="com.nioos.leanspool.printjobs.PrintJobModelImpl" />
+		<Method name="getJobData"/>
+		<Bug pattern="EI_EXPOSE_REP"/>
+	</Match>
+	<Match>
+		<Class name="com.nioos.leanspool.printjobs.PrintJobModelImpl" />
+		<Method name="setJobData"/>
+		<Bug pattern="EI_EXPOSE_REP2"/>
 	</Match>
 </FindBugsFilter>
