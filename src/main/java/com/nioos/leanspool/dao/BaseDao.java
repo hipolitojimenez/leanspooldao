@@ -7,10 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -277,7 +277,7 @@ public class BaseDao {
 	 * @return the md5 hash key.
 	 */
 	protected final String getHashKey(final byte[] data) {
-		return DigestUtils.md5Hex(data);
+		return UUID.randomUUID().toString();
 	}
 	
 	

@@ -18,7 +18,7 @@
 			</column>
 		</createTable>
 		<createTable tableName="PrintJob">
-			<column name="JobId" type="nvarchar(250)">
+			<column name="JobId" type="char(36)">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_PrintJob" />
 			</column>
 			<column name="PrinterName" type="nvarchar(250)">

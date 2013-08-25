@@ -97,7 +97,7 @@ public class PrintJobsDaoTest {
 		final String printerName = printJob.getPrinterName();
 		Assert.assertEquals("Invalid print name", "Printer01", printerName);
 		final String jobId = printJob.getJobId();
-		Assert.assertEquals("Invalid print job ID", "jobId01", jobId);
+		Assert.assertEquals("Invalid print job ID", "jobId01", jobId.trim());
 	}
 	
 	
@@ -135,7 +135,7 @@ public class PrintJobsDaoTest {
 		final String printerName = printJob.getPrinterName();
 		Assert.assertEquals("Invalid print name", "Printer01", printerName);
 		final String jobId = printJob.getJobId();
-		Assert.assertEquals("Invalid print job ID", "jobId01", jobId);
+		Assert.assertEquals("Invalid print job ID", "jobId01", jobId.trim());
 	}
 	
 	
@@ -173,7 +173,7 @@ public class PrintJobsDaoTest {
 		final String printerName = printJob.getPrinterName();
 		Assert.assertEquals("Invalid print name", "Printer01", printerName);
 		final String jobId = printJob.getJobId();
-		Assert.assertEquals("Invalid print job ID", "jobId01", jobId);
+		Assert.assertEquals("Invalid print job ID", "jobId01", jobId.trim());
 	}
 	
 	
@@ -287,8 +287,7 @@ public class PrintJobsDaoTest {
 		final byte[] data = (byte[]) queryResult.getValue(0, "JobData");
 		dbConnection.close();
 		//
-		Assert.assertEquals("Invalid jobId",
-			"f315202b28422ed5c2af4f843b8c2764", jobId);
+		Assert.assertEquals("Invalid jobId len", 36, jobId.length());
 		Assert.assertEquals("Invalid printerName", "testPrinter", printerName);
 		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
 		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
