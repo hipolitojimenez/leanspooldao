@@ -290,7 +290,6 @@ public class PrintJobsDaoTest {
 		Assert.assertEquals("Invalid jobId len", 36, jobId.length());
 		Assert.assertEquals("Invalid printerName", "testPrinter", printerName);
 		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
-		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
 		Assert.assertArrayEquals("Invalid data", buffer, data);
 	}
 	
