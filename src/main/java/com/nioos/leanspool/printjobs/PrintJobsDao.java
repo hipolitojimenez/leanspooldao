@@ -336,7 +336,7 @@ public class PrintJobsDao extends BaseDao {
 	 * @throws DaoException on error.
 	 * @throws PrintJobsException on error.
 	 */
-	public final String insertNewJob(final PrintJobModel printJobModel)
+	public final String insertNewJob(final PrintJobModelImpl printJobModel)
 			throws DaoException, PrintJobsException {
 		final Connection connection = getInsertConnection(); // NOPMD
 		final PreparedStatement preparedStatement =

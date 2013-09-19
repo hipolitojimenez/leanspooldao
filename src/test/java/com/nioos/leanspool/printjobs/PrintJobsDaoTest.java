@@ -267,7 +267,7 @@ public class PrintJobsDaoTest {
 	public final void testInsertNewJob()
 			throws Exception { // NOPMD
 		final PrintJobsDao printJobsDao = new PrintJobsDao();
-		final PrintJobModel printJobModel = new PrintJobModelImpl();
+		final PrintJobModelImpl printJobModel = new PrintJobModelImpl();
 		printJobModel.setPrinterName("testPrinter");
 		final byte[] buffer = "Test Data".getBytes("UTF-8"); // NOPMD
 		printJobModel.setJobData(buffer);

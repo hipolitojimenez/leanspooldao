@@ -54,16 +54,4 @@ public interface PrintJobModel {
 	 */
 	void setJobStatus(String value);
 	
-	/**
-	 * Gets the job data.
-	 * @return the job data.
-	 */
-	byte[] getJobData();
-	
-	/**
-	 * Sets the data.
-	 * @param buffer the data.
-	 */
-	void setJobData(byte[] buffer);
-	
 }
