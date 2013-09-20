@@ -277,7 +277,8 @@ public class PrintJobsDaoTest {
 			DataSourceUtils.buildDataSource(JDBC_PROPERTIES);
 		final IDatabaseConnection dbConnection =
 			new DatabaseDataSourceConnection(dataSource);
-		final String sql = "SELECT PrinterName, JobStatus, JobData FROM "
+		final String sql =
+			"SELECT PrinterName, JobStatus, JobData, JobSize FROM "
 			+ " PrintJob WHERE JobId = '" + jobId + "'";
 		final ITable queryResult =
 			dbConnection.createQueryTable("TEST_RESULT", sql);
@@ -285,12 +286,14 @@ public class PrintJobsDaoTest {
 			(String) queryResult.getValue(0, "PrinterName");
 		final String jobStatus = (String) queryResult.getValue(0, "JobStatus");
 		final byte[] data = (byte[]) queryResult.getValue(0, "JobData");
+		final int jobSize = (Integer) queryResult.getValue(0, "JobSize");
 		dbConnection.close();
 		//
 		Assert.assertEquals("Invalid jobId len", 36, jobId.length());
 		Assert.assertEquals("Invalid printerName", "testPrinter", printerName);
 		Assert.assertEquals("Invalid jobStatus", NEW, jobStatus);
 		Assert.assertArrayEquals("Invalid data", buffer, data);
+		Assert.assertEquals("Invalid job size", buffer.length, jobSize);
 	}
 	
 	

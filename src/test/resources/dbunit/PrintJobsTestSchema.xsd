@@ -11,5 +11,6 @@
     	<attribute name="PrinterName" type="string"></attribute>
     	<attribute name="JobStatus" type="string"></attribute>
     	<attribute name="JobData" type="string"></attribute>
+    	<attribute name="JobSize" type="int"></attribute>
     </complexType>
 </schema>

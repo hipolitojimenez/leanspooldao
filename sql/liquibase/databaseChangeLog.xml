@@ -30,6 +30,9 @@
 			<column name="JobData" type="varbinary(MAX)">
 				<constraints nullable="false" />
 			</column>
+			<column name="JobSize" type="int">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 		<createIndex tableName="PrintJob" indexName="PrintJob_PrinterName">
 			<column name="PrinterName" />

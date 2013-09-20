@@ -40,6 +40,12 @@ public class PrintJobModelImpl implements PrintJobModel {
 	
 	
 	/**
+	 * The job size.
+	 */
+	private int jobSize = 0;
+	
+	
+	/**
 	 * Gets the job id.
 	 * @return the job id.
 	 */
@@ -108,6 +114,20 @@ public class PrintJobModelImpl implements PrintJobModel {
 	 */
 	public final void setJobData(final byte[] value) { // NOPMD
 		jobData = value;
+		if (jobData == null) {
+			jobSize = 0;
+		} else {
+			jobSize = jobData.length;
+		}
+	}
+	
+	
+	/**
+	 * Gets the job size.
+	 * @return the job size.
+	 */
+	public final int getJobSize() {
+		return jobSize;
 	}
 	
 	

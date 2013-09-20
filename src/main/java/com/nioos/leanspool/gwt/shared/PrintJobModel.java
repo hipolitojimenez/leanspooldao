@@ -54,4 +54,10 @@ public interface PrintJobModel {
 	 */
 	void setJobStatus(String value);
 	
+	/**
+	 * Gets the job size.
+	 * @return the job size.
+	 */
+	int getJobSize();
+	
 }

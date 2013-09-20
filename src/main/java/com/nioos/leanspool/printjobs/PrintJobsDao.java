@@ -81,8 +81,8 @@ public class PrintJobsDao extends BaseDao {
 	 * SQL statement to insert a new print job.
 	 */
 	private static final String INSERTNEWPRINTJOBSTMT =
-		"INSERT INTO PrintJob (JobId, PrinterName, JobStatus, JobData)"
-			+ " VALUES (?, ?, ?, ?)";
+		"INSERT INTO PrintJob (JobId, PrinterName, JobStatus, JobData, JobSize)"
+		+ " VALUES (?, ?, ?, ?, ?)";
 	
 	
 	/**
@@ -347,6 +347,7 @@ public class PrintJobsDao extends BaseDao {
 			preparedStatement.setString(2, printJobModel.getPrinterName());
 			preparedStatement.setString(3, printJobModel.getJobStatus());
 			preparedStatement.setBytes(4, printJobModel.getJobData());
+			preparedStatement.setInt(5, printJobModel.getJobSize());
 			preparedStatement.executeUpdate();
 			return jobId;
 		} catch (SQLException sqle) {
