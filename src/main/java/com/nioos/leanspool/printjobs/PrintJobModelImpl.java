@@ -131,4 +131,17 @@ public class PrintJobModelImpl implements PrintJobModel {
 	}
 	
 	
+	/**
+	 * Sets the job size.
+	 * @param size the job size.
+	 */
+	public final void setJobSize(int size) {
+		if (jobData == null) {
+			jobSize = size;
+		} else {
+			throw new IllegalAccessError("Cannot set the job size directly");
+		}
+	}
+	
+	
 }

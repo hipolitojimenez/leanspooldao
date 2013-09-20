@@ -60,21 +60,21 @@ public class PrintJobsDao extends BaseDao {
 	 * SQL statement to retrieve the print jobs for a given printer.
 	 */
 	private static final String GETPRINTJOBSFORPRINTERSTMT =
-		"SELECT JobId, JobStatus FROM PrintJob WHERE PrinterName = ?";
+		"SELECT JobId, JobStatus, JobSize FROM PrintJob WHERE PrinterName = ?";
 	
 	
 	/**
 	 * SQL statement to retrieve all the print jobs.
 	 */
 	private static final String GETPRINTJOBSSTMT =
-		"SELECT JobId, PrinterName, JobStatus FROM PrintJob";
+		"SELECT JobId, PrinterName, JobStatus, JobSize FROM PrintJob";
 	
 	
 	/**
 	 * SQL statement to retrieve the print jobs for a given status.
 	 */
 	private static final String GETPRINTJOBSFORSTATUSSTMT =
-		"SELECT JobId, PrinterName FROM PrintJob WHERE JobStatus = ?";
+		"SELECT JobId, PrinterName, JobSize FROM PrintJob WHERE JobStatus = ?";
 	
 	
 	/**
@@ -125,11 +125,13 @@ public class PrintJobsDao extends BaseDao {
 			while (resultSet.next()) {
 				final String jobId = resultSet.getString(1);
 				final String jobStatus = resultSet.getString(2);
+				final int jobSize = resultSet.getInt(3);
 				final PrintJobModel printJobModel =
 					new PrintJobModelImpl(); // NOPMD
 				printJobModel.setJobId(jobId);
 				printJobModel.setPrinterName(printer);
 				printJobModel.setJobStatus(jobStatus);
+				printJobModel.setJobSize(jobSize);
 				printJobModelList.add(printJobModel);
 			}
 			resultSet.close();
@@ -172,11 +174,13 @@ public class PrintJobsDao extends BaseDao {
 				final String jobId = resultSet.getString(1);
 				final String printerName = resultSet.getString(2);
 				final String jobStatus = resultSet.getString(3);
+				final int jobSize = resultSet.getInt(4);
 				final PrintJobModel printJobModel =
 					new PrintJobModelImpl(); // NOPMD
 				printJobModel.setJobId(jobId);
 				printJobModel.setPrinterName(printerName);
 				printJobModel.setJobStatus(jobStatus);
+				printJobModel.setJobSize(jobSize);
 				printJobModelList.add(printJobModel);
 			}
 			resultSet.close();
@@ -221,11 +225,13 @@ public class PrintJobsDao extends BaseDao {
 			while (resultSet.next()) {
 				final String jobId = resultSet.getString(1);
 				final String printerName = resultSet.getString(2);
+				final int jobSize = resultSet.getInt(3);
 				final PrintJobModel printJobModel =
 					new PrintJobModelImpl(); // NOPMD
 				printJobModel.setJobId(jobId);
 				printJobModel.setPrinterName(printerName);
 				printJobModel.setJobStatus(status);
+				printJobModel.setJobSize(jobSize);
 				printJobModelList.add(printJobModel);
 			}
 			resultSet.close();

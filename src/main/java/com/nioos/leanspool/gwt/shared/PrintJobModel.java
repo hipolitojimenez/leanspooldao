@@ -60,4 +60,10 @@ public interface PrintJobModel {
 	 */
 	int getJobSize();
 	
+	/**
+	 * sets the job size.
+	 * @param size the job size.
+	 */
+	void setJobSize(int size);
+	
 }
